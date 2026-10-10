@@ -15,7 +15,7 @@ Week One Progress (10/04/2026 - 10/11/2026):
 * Coding Concepts and Implementation started by Rowan
 * Pseudocode started by Cas & Rowan
 * Test planing started by Cas and Colin
-* Project oversight and task delegation by Colin
+* Project oversight and task delegation by Yakez
 
 Week Two Progress: 
 
