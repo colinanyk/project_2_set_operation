@@ -1,4 +1,5 @@
-package sets;
+import sets.MultiSet;
+import sets.Set;
 
 /*
  * Team 4
@@ -51,8 +52,8 @@ public class Main {
 		int[] aCounts = { 2, 1, 0, 3, 1, 0, 0, 0, 0, 0 };
 		int[] bCounts = { 1, 2, 1, 0, 0, 2, 0, 0, 0, 0 };
 
-		Multiset multisetA = new Multiset(aCounts);
-		Multiset multisetB = new Multiset(bCounts);
+		MultiSet multisetA = new MultiSet(aCounts);
+		MultiSet multisetB = new MultiSet(bCounts);
 
 		System.out.println("\n===== MULTISETS =====");
 
@@ -80,7 +81,7 @@ public class Main {
 
 		// Multiset edge cases.
 		int[] emptyCounts = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-		Multiset emptyMultiset = new Multiset(emptyCounts);
+		MultiSet emptyMultiset = new MultiSet(emptyCounts);
 
 		displayMultiset("A + Empty Multiset", multisetA.sum(emptyMultiset), universe);
 
@@ -108,7 +109,7 @@ public class Main {
 	 * @param result   multiset to display
 	 * @param universe universal set defining element order
 	 */
-	private static void displayMultiset(String label, Multiset result, Set universe) {
+	private static void displayMultiset(String label, MultiSet result, Set universe) {
 
 		System.out.println("\n" + label);
 		System.out.println("Multiplicities: " + result.display(universe));
