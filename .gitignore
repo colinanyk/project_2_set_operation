@@ -43,4 +43,8 @@ target/
 
 # Temporary Office files
 ~$*
+*.jar
 
+# Keep project dependencies in source control
+!src/lib/algs4.jar
+!src/lib/junit-platform-console-standalone-1.10.2.jar

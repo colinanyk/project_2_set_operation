@@ -13,6 +13,21 @@ public class Set {
         values = new boolean[length];
     }
 
+    public int length() {
+        return values.length;
+    }
+
+    public int[] elements() {
+        int[] result = new int[size()];
+        int index = 0;
+        for (int i = 0; i < values.length; i++) {
+            if (values[i]) {
+                result[index++] = i;
+            }
+        }
+        return result;
+    }
+
     //From given numbers a set will be made.
     public static Set of(int... numbers) {
         int largest = 0;
@@ -122,3 +137,4 @@ public class Set {
         return result + "}";
     }
 }
+
