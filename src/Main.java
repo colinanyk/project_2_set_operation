@@ -52,8 +52,8 @@ public class Main {
 		int[] aCounts = { 2, 1, 0, 3, 1, 0, 0, 0, 0, 0 };
 		int[] bCounts = { 1, 2, 1, 0, 0, 2, 0, 0, 0, 0 };
 
-		MultiSet multisetA = new MultiSet(aCounts);
-		MultiSet multisetB = new MultiSet(bCounts);
+		MultiSet multisetA = new MultiSet(universe, aCounts);
+		MultiSet multisetB = new MultiSet(universe, bCounts);
 
 		System.out.println("\n===== MULTISETS =====");
 
@@ -81,7 +81,7 @@ public class Main {
 
 		// Multiset edge cases.
 		int[] emptyCounts = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-		MultiSet emptyMultiset = new MultiSet(emptyCounts);
+		MultiSet emptyMultiset = new MultiSet(universe, emptyCounts);
 
 		displayMultiset("A + Empty Multiset", multisetA.sum(emptyMultiset), universe);
 
