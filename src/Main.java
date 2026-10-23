@@ -3,15 +3,16 @@ import sets.Set;
 
 /*
  * Team 4
- * Team Members: Rowan Bailey, Cassandra Keiley, Colin Nykanen, Yakez Owens 
+ * Team Members: Rowan Bailey, Cassandra Keiley, Colin Nykanen, Yakez Owens
  * Course: CS 2430 - 501
  * Project: Programming Project 2: Set Operations
  * Primary Author: rBailey
  */
 
 /**
- * Runs the ordinary set and multiset operations for Programming Project 2.
- * Creates example data, performs the required operations, and displays results.
+ * Runs the ordinary set, multiset, and fuzzy set operations for Programming
+ * Project 2. Creates example data, performs the required operations, and
+ * displays results.
  */
 public class Main {
 
@@ -23,10 +24,10 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 
-		// Define the universal set in a fixed order.
+		//Define the universal set in a fixed order.
 		Set universe = Set.of(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
 
-		// PART 1: ORDINARY SETS
+		//PART 1: ORDINARY SETS
 		Set A = Set.of(0, 2, 4, 6);
 		Set B = Set.of(2, 3, 5, 6);
 
@@ -46,9 +47,9 @@ public class Main {
 
 		displaySet("A XOR B - Symmetric Difference", A.symmetricDifference(B), universe);
 
-		// PART 2: MULTISETS
-		// Each position corresponds to an element in the universe.
-		// Each integer represents the number of occurrences.
+		//PART 2: MULTISETS
+		//Each position corresponds to an element in the universe.
+		//Each integer represents the number of occurrences.
 		int[] aCounts = { 2, 1, 0, 3, 1, 0, 0, 0, 0, 0 };
 		int[] bCounts = { 1, 2, 1, 0, 0, 2, 0, 0, 0, 0 };
 
@@ -60,32 +61,60 @@ public class Main {
 		displayMultiset("Multiset A", multisetA, universe);
 		displayMultiset("Multiset B", multisetB, universe);
 
-		// Union takes the maximum multiplicity.
+		//Union takes the maximum multiplicity.
 		displayMultiset("Multiset Union (A U B)", multisetA.union(multisetB), universe);
 
-		// Intersection takes the minimum multiplicity.
+		//Intersection takes the minimum multiplicity.
 		displayMultiset("Multiset Intersection (A INTERSECTION B)", multisetA.intersection(multisetB), universe);
 
-		// Difference subtracts multiplicities, with a minimum of zero.
+		//Difference subtracts multiplicities, with a minimum of zero.
 		displayMultiset("Multiset Difference (A - B)", multisetA.difference(multisetB), universe);
 
-		// Sum adds the multiplicities of corresponding elements.
+		//Sum adds the multiplicities of corresponding elements.
 		displayMultiset("Multiset Sum (A + B)", multisetA.sum(multisetB), universe);
 
-		// EDGE CASES
+		//EDGE CASES
 		Set emptySet = Set.of();
 
 		displaySet("A UNION Empty Set", A.union(emptySet), universe);
 
 		displaySet("A INTERSECTION Empty Set", A.intersection(emptySet), universe);
 
-		// Multiset edge cases.
+		//Multiset edge cases.
 		int[] emptyCounts = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		MultiSet emptyMultiset = new MultiSet(universe, emptyCounts);
 
 		displayMultiset("A + Empty Multiset", multisetA.sum(emptyMultiset), universe);
 
 		displayMultiset("A - Empty Multiset", multisetA.difference(emptyMultiset), universe);
+
+		//PART 3: FUZZY SETS
+		//Membership degrees range from 0.0 to 1.0.
+		//The arrays correspond to elements 0 through 9 in the universe.
+		double[] fuzzyACounts = { 1.0, 0.0, 0.70, 0.0, 0.50, 0.0, 1.0, 0.0, 0.0, 0.0 };
+
+		double[] fuzzyBCounts = { 0.0, 0.40, 0.40, 0.0, 1.0, 0.60, 0.0, 0.0, 0.0, 0.0 };
+
+		/*
+		 *PROPOSED METHODS: These calls assume fuzzy support will be added to Set. The
+		 *methods must be implemented before this code will compile.
+		 */
+		Set fuzzyA = Set.fuzzyOf(universe, fuzzyACounts);
+		Set fuzzyB = Set.fuzzyOf(universe, fuzzyBCounts);
+
+		System.out.println("\n===== FUZZY SETS =====");
+
+		displayFuzzySet("Fuzzy Set A", fuzzyA, universe);
+		displayFuzzySet("Fuzzy Set B", fuzzyB, universe);
+
+		//Complement: 1.0 - membership degree.
+		displayFuzzySet("Fuzzy Complement NOT(A)", fuzzyA.fuzzyComplement(universe), universe);
+
+		//Union: maximum membership degree.
+		displayFuzzySet("Fuzzy Union (A U B)", fuzzyA.fuzzyUnion(fuzzyB, universe), universe);
+
+		//Intersection: minimum membership degree.
+		displayFuzzySet("Fuzzy Intersection (A INTERSECTION B)", fuzzyA.fuzzyIntersection(fuzzyB, universe), universe);
 	}
 
 	/**
@@ -114,5 +143,25 @@ public class Main {
 		System.out.println("\n" + label);
 		System.out.println("Multiplicities: " + result.display(universe));
 		System.out.println("Elements: " + result);
+	}
+
+	/**
+	 * Displays each element's fuzzy membership degree in universe order.
+	 *
+	 * @param label    operation or fuzzy set name
+	 * @param result   fuzzy set to display
+	 * @param universe universal set defining element order
+	 */
+	private static void displayFuzzySet(String label, Set result, Set universe) {
+
+		System.out.println("\n" + label);
+		System.out.println("Membership degrees:");
+
+		// Proposed method returning the membership degrees in universe order.
+		double[] degrees = result.fuzzyDisplay(universe);
+
+		for (int i = 0; i < degrees.length; i++) {
+			System.out.printf("%d: %.2f%n", i, degrees[i]);
+		}
 	}
 }
