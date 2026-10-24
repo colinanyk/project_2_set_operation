@@ -99,22 +99,22 @@ public class Main {
 		 *PROPOSED METHODS: These calls assume fuzzy support will be added to Set. The
 		 *methods must be implemented before this code will compile.
 		 */
-		Set fuzzyA = Set.fuzzyOf(universe, fuzzyACounts);
-		Set fuzzyB = Set.fuzzyOf(universe, fuzzyBCounts);
+//		Set fuzzyA = Set.fuzzyOf(universe, fuzzyACounts);
+//		Set fuzzyB = Set.fuzzyOf(universe, fuzzyBCounts);
 
 		System.out.println("\n===== FUZZY SETS =====");
 
-		displayFuzzySet("Fuzzy Set A", fuzzyA, universe);
-		displayFuzzySet("Fuzzy Set B", fuzzyB, universe);
+//		displayFuzzySet("Fuzzy Set A", fuzzyA, universe);
+//		displayFuzzySet("Fuzzy Set B", fuzzyB, universe);
 
 		//Complement: 1.0 - membership degree.
-		displayFuzzySet("Fuzzy Complement NOT(A)", fuzzyA.fuzzyComplement(universe), universe);
+//		displayFuzzySet("Fuzzy Complement NOT(A)", fuzzyA.fuzzyComplement(universe), universe);
 
 		//Union: maximum membership degree.
-		displayFuzzySet("Fuzzy Union (A U B)", fuzzyA.fuzzyUnion(fuzzyB, universe), universe);
+//		displayFuzzySet("Fuzzy Union (A U B)", fuzzyA.fuzzyUnion(fuzzyB, universe), universe);
 
 		//Intersection: minimum membership degree.
-		displayFuzzySet("Fuzzy Intersection (A INTERSECTION B)", fuzzyA.fuzzyIntersection(fuzzyB, universe), universe);
+//		displayFuzzySet("Fuzzy Intersection (A INTERSECTION B)", fuzzyA.fuzzyIntersection(fuzzyB, universe), universe);
 	}
 
 	/**
@@ -152,16 +152,16 @@ public class Main {
 	 * @param result   fuzzy set to display
 	 * @param universe universal set defining element order
 	 */
-	private static void displayFuzzySet(String label, Set result, Set universe) {
-
-		System.out.println("\n" + label);
-		System.out.println("Membership degrees:");
-
-		// Proposed method returning the membership degrees in universe order.
-		double[] degrees = result.fuzzyDisplay(universe);
-
-		for (int i = 0; i < degrees.length; i++) {
-			System.out.printf("%d: %.2f%n", i, degrees[i]);
-		}
-	}
+//	private static void displayFuzzySet(String label, Set result, Set universe) {
+//
+//		System.out.println("\n" + label);
+//		System.out.println("Membership degrees:");
+//
+//		// Proposed method returning the membership degrees in universe order.
+//		double[] degrees = result.fuzzyDisplay(universe);
+//
+//		for (int i = 0; i < degrees.length; i++) {
+//			System.out.printf("%d: %.2f%n", i, degrees[i]);
+//		}
+//	}
 }
