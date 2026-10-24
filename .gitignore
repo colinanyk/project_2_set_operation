@@ -49,3 +49,4 @@ target/
 # Keep project dependencies in source control
 !src/lib/algs4.jar
 !src/lib/junit-platform-console-standalone-1.10.2.jar
+!src/lib/guava-33.7.2-jre.jar
