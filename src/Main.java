@@ -1,3 +1,6 @@
+import java.util.Locale;
+
+import sets.FuzzySet;
 import sets.MultiSet;
 import sets.Set;
 
@@ -31,7 +34,8 @@ public class Main {
 		Set A = Set.of(0, 2, 4, 6);
 		Set B = Set.of(2, 3, 5, 6);
 
-		System.out.println("===== ORDINARY SETS =====");
+		System.out.println("===== PART 1: ORDINARY SETS =====");
+		System.out.println("Fixed universal order (left-to-right positions): " + universe);
 
 		displaySet("Universal Set", universe, universe);
 		displaySet("Set A", A, universe);
@@ -56,7 +60,8 @@ public class Main {
 		MultiSet multisetA = new MultiSet(universe, aCounts);
 		MultiSet multisetB = new MultiSet(universe, bCounts);
 
-		System.out.println("\n===== MULTISETS =====");
+		System.out.println("\n===== PART 2: MULTISETS (BAGS) =====");
+		System.out.println("Fixed universal order (multiplicity positions): " + universe);
 
 		displayMultiset("Multiset A", multisetA, universe);
 		displayMultiset("Multiset B", multisetB, universe);
@@ -91,30 +96,28 @@ public class Main {
 		//PART 3: FUZZY SETS
 		//Membership degrees range from 0.0 to 1.0.
 		//The arrays correspond to elements 0 through 9 in the universe.
-		double[] fuzzyACounts = { 1.0, 0.0, 0.70, 0.0, 0.50, 0.0, 1.0, 0.0, 0.0, 0.0 };
+		double[] fuzzyADegrees = { 1.0, 0.0, 0.70, 0.0, 0.50, 0.0, 1.0, 0.0, 0.0, 0.0 };
+		double[] fuzzyBDegrees = { 0.0, 0.40, 0.40, 0.0, 1.0, 0.60, 0.0, 0.0, 0.0, 0.0 };
+		FuzzySet fuzzyA = FuzzySet.fromDegrees(universe, fuzzyADegrees);
+		FuzzySet fuzzyB = FuzzySet.fromDegrees(universe, fuzzyBDegrees);
 
-		double[] fuzzyBCounts = { 0.0, 0.40, 0.40, 0.0, 1.0, 0.60, 0.0, 0.0, 0.0, 0.0 };
-
-		/*
-		 *PROPOSED METHODS: These calls assume fuzzy support will be added to Set. The
-		 *methods must be implemented before this code will compile.
-		 */
-//		Set fuzzyA = Set.fuzzyOf(universe, fuzzyACounts);
-//		Set fuzzyB = Set.fuzzyOf(universe, fuzzyBCounts);
-
-		System.out.println("\n===== FUZZY SETS =====");
-
-//		displayFuzzySet("Fuzzy Set A", fuzzyA, universe);
-//		displayFuzzySet("Fuzzy Set B", fuzzyB, universe);
+		System.out.println("\n===== PART 3: FUZZY SET CHANGE REQUEST =====");
+		System.out.println("Fixed universal order (membership positions): " + universe);
+		displayFuzzySet("Input A", fuzzyA, universe);
+		displayFuzzySet("Input B", fuzzyB, universe);
 
 		//Complement: 1.0 - membership degree.
-//		displayFuzzySet("Fuzzy Complement NOT(A)", fuzzyA.fuzzyComplement(universe), universe);
+		double[] expectedComplement = { 0.0, 1.0, 0.30, 1.0, 0.50, 1.0, 0.0, 1.0, 1.0, 1.0 };
+		displayFuzzyOperation("Complement NOT(A)", expectedComplement, fuzzyA.complement(), universe);
 
 		//Union: maximum membership degree.
-//		displayFuzzySet("Fuzzy Union (A U B)", fuzzyA.fuzzyUnion(fuzzyB, universe), universe);
+		double[] expectedUnion = { 1.0, 0.40, 0.70, 0.0, 1.0, 0.60, 1.0, 0.0, 0.0, 0.0 };
+		displayFuzzyOperation("Union (A U B)", expectedUnion, fuzzyA.union(fuzzyB), universe);
 
 		//Intersection: minimum membership degree.
-//		displayFuzzySet("Fuzzy Intersection (A INTERSECTION B)", fuzzyA.fuzzyIntersection(fuzzyB, universe), universe);
+		double[] expectedIntersection = { 0.0, 0.0, 0.40, 0.0, 0.50, 0.0, 0.0, 0.0, 0.0, 0.0 };
+		displayFuzzyOperation("Intersection (A INTERSECTION B)", expectedIntersection,
+				fuzzyA.intersection(fuzzyB), universe);
 	}
 
 	/**
@@ -145,23 +148,25 @@ public class Main {
 		System.out.println("Elements: " + result);
 	}
 
-	/**
-	 * Displays each element's fuzzy membership degree in universe order.
-	 *
-	 * @param label    operation or fuzzy set name
-	 * @param result   fuzzy set to display
-	 * @param universe universal set defining element order
-	 */
-//	private static void displayFuzzySet(String label, Set result, Set universe) {
-//
-//		System.out.println("\n" + label);
-//		System.out.println("Membership degrees:");
-//
-//		// Proposed method returning the membership degrees in universe order.
-//		double[] degrees = result.fuzzyDisplay(universe);
-//
-//		for (int i = 0; i < degrees.length; i++) {
-//			System.out.printf("%d: %.2f%n", i, degrees[i]);
-//		}
-//	}
+	private static void displayFuzzySet(String label, FuzzySet result, Set universe) {
+		System.out.println("\n" + label + ": " + formatFuzzyEntries(universe, result.memberships()));
+	}
+
+	private static void displayFuzzyOperation(String label, double[] expected, FuzzySet actual, Set universe) {
+		System.out.println("\n" + label);
+		System.out.println("Expected: " + formatFuzzyEntries(universe, expected));
+		System.out.println("Actual:   " + formatFuzzyEntries(universe, actual.memberships()));
+	}
+
+	private static String formatFuzzyEntries(Set universe, double[] degrees) {
+		StringBuilder result = new StringBuilder("{");
+		int[] elements = universe.elements();
+		for (int i = 0; i < elements.length; i++) {
+			if (i > 0) {
+				result.append(", ");
+			}
+			result.append(String.format(Locale.ROOT, "(%d, %.2f)", elements[i], degrees[i]));
+		}
+		return result.append('}').toString();
+	}
 }
