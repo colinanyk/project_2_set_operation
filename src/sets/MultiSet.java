@@ -75,6 +75,7 @@ public class MultiSet {
 	 * @return string representation of multiplicity array
 	 */
 	public String display(Set universe) {
+		requireSameUniverse(universe);
 		int[] elements = universe.elements();
 		int[] counts = new int[elements.length];
 
@@ -84,6 +85,11 @@ public class MultiSet {
 		}
 		return Arrays.toString(counts);
 	}
+
+	/** Returns multiplicities in this multiset's fixed universe order. */
+	public String display() {
+		return display(universe);
+	}
 	
 	/**
 	 * Returns the union of two multisets, using the greater multiplicity per element
@@ -92,7 +98,7 @@ public class MultiSet {
 	 * @return			new multiset containing maximum count of each element
 	 */
 	public MultiSet union(MultiSet other){
-		
+		requireSameUniverse(other);
 		return new MultiSet(universe, Multisets.union(multiset, other.multiset));
 	}
 	
@@ -103,7 +109,7 @@ public class MultiSet {
 	 * @return			new multiset containing minimum count of each element
 	 */
 	public MultiSet intersection(MultiSet other){
-		
+		requireSameUniverse(other);
 		return new MultiSet(universe, Multisets.intersection(multiset, other.multiset));
 	}
 		
@@ -115,7 +121,7 @@ public class MultiSet {
 	 * @return			new multiset containing the difference between the two
 	 */
 	public MultiSet difference(MultiSet other){
-		
+		requireSameUniverse(other);
 		return new MultiSet(universe, Multisets.difference(multiset, other.multiset));
 	}
 	
@@ -126,8 +132,21 @@ public class MultiSet {
 	 * @return			new multiset containing the sum of each elements count
 	 */
 	public MultiSet sum(MultiSet other){
-		
+		requireSameUniverse(other);
 		return new MultiSet(universe, Multisets.sum(multiset, other.multiset));
+	}
+
+	private void requireSameUniverse(MultiSet other) {
+		if (other == null) {
+			throw new IllegalArgumentException("Other multiset cannot be null");
+		}
+		requireSameUniverse(other.universe);
+	}
+
+	private void requireSameUniverse(Set otherUniverse) {
+		if (otherUniverse == null || !Arrays.equals(universe.elements(), otherUniverse.elements())) {
+			throw new IllegalArgumentException("Multisets must use the same universe");
+		}
 	}
 	
 	@Override

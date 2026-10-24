@@ -1,5 +1,6 @@
 package tests.sets;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -140,6 +141,21 @@ class MultiSetTest {
     	assertEquals("Counts array inputs cannot be negative", exception.getMessage());
     	
     }
+
+  @Test
+  void operationsRequireTheSameUniverse() {
+    Set otherUniverse = Set.of(2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13);
+    MultiSet other = new MultiSet(otherUniverse,
+        new int[] { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 });
+
+    assertAll(
+        () -> assertThrows(IllegalArgumentException.class, () -> A.union(other)),
+        () -> assertThrows(IllegalArgumentException.class, () -> A.intersection(other)),
+        () -> assertThrows(IllegalArgumentException.class, () -> A.difference(other)),
+        () -> assertThrows(IllegalArgumentException.class, () -> A.sum(other)),
+        () -> assertThrows(IllegalArgumentException.class, () -> A.union(null)),
+        () -> assertThrows(IllegalArgumentException.class, () -> A.display(otherUniverse)));
+  }
     
 }
 
