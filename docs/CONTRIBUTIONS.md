@@ -24,8 +24,8 @@ Week Two Progress (10/11/26 - 10/18/26):
 * Java Tests verified and created by Cass & Colin.
 
 Week Three Progress (10/18/26 - 10/25/26):
-* Fuzzy Sets class finished by 
-* Fuzzy Sets test done by 
+* Fuzzy Sets class finished by Colin Nykanen & Cassandra Keiley
+* Fuzzy Sets test done by Colin Nykanen
 * Fuzzy Sets main Java implementation done by Rowan. 
 * Fuzzy Sets Change Impact Analysis finished by Yakez. 
 * Team code package, report, and screen cast gathered and submitted by Yakez.
